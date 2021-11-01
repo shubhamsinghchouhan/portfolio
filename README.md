@@ -4,5 +4,5 @@
 
 ------------------------------------------------------------
 
-> Visit: <http://shubhamsinghchouhan.github.io>
+> Visit: <http://shubhamsinghchouhan.github.io/portfolio>
  
