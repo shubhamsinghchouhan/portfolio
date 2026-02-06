@@ -218,10 +218,59 @@ window.portfolioData = {
       "type": "link"
     },
     {
-      "name": "Contact",
+      "name": "Email",
       "icon": "fas fa-paper-plane",
       "url": "mailto:shubhamsinghchouhan@live.com",
       "type": "action"
+    },
+    {
+      "name": "Contact",
+      "icon": "fa fa-mobile",
+      "url": "tel:+919407119131",
+      "type": "action"
+    },
+    // {
+    //   "name": "Medium",
+    //   "icon": "fab fa-medium-m",
+    //   "url": "https://tingreavinash.medium.com/",
+    //   "type": "link"
+    // },
+    // {
+    //   "name": "upwork",
+    //   "icon": "fab fa-upwork",
+    //   "url": "https://www.upwork.com/freelancers/~0157fd2936e552ee24",
+    //   "type": "link"
+    // },
+    {
+      "name": "Facebook",
+      "icon": "fab fa-facebook-f",
+      "url": "https://www.facebook.com/shubh1109",
+      "type": "link"
+    },
+    {
+      "name": "Instagram",
+      "icon": "fab fa-instagram",
+      "url": "https://www.instagram.com/shubhchouhan/",
+      "type": "link"
     }
+  ],
+  "skillIcons": [
+    {"name": "Ruby", "icon": "img/icons/ruby.svg"},
+    {"name": "Ruby on Rails", "icon": "img/icons/ror.svg"},
+    {"name": "MySQL", "icon": "img/icons/mysql.svg"},
+    {"name": "PostgreSQL", "icon": "img/icons/postgresql.svg"},
+    {"name": "HTML", "icon": "img/icons/html.svg"},
+    {"name": "CSS", "icon": "img/icons/css.svg"},
+    {"name": "JavaScript", "icon": "img/icons/js.svg"},
+    {"name": "jQuery", "icon": "img/icons/jquery.svg"},
+    {"name": "VueJS", "icon": "img/icons/vuejs.svg"},
+    {"name": "Backbone JS", "icon": "img/icons/backbonejs.svg"},
+    {"name": "Git", "icon": "img/icons/git.svg"},
+    {"name": "AWS EC2", "icon": "img/icons/aws-ec2.svg"},
+    {"name": "Heroku", "icon": "img/icons/heroku.svg"},
+    {"name": "Sublime Text", "icon": "img/icons/sublime.svg"},
+    {"name": "Visual Studio Code", "icon": "img/icons/vscode.svg"},
+    {"name": "Postman", "icon": "img/icons/postman.svg"},
+    {"name": "Linux", "icon": "img/icons/linux.svg"}
   ]
 };

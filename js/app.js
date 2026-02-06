@@ -7,6 +7,8 @@ const app = {
     await this.loadData();
     this.initExperience();
     this.initProjects();
+    this.initSummarySKills();
+    this.initSkillIcons();
     this.initSkills();
     this.initSocialLinks();
   },
@@ -191,6 +193,70 @@ const app = {
   },
 
   // Render skills from data.json
+  // Render skill icons grid
+  initSkillIcons() {
+    console.log('initSkillIcons called');
+    
+    if (!this.data || !this.data.skillIcons) {
+      console.warn('No skill icons data available');
+      return;
+    }
+    
+    const container = document.getElementById('skill-icons-container');
+    if (!container) {
+      console.warn('Skill icons container not found');
+      return;
+    }
+    
+    container.innerHTML = '';
+    
+    this.data.skillIcons.forEach(skill => {
+      const iconHTML = `<div class="col">
+        <img src="${skill.icon}" alt="${skill.name}" data-placement="bottom" data-toggle="tooltip" data-aos="fade-right" title="${skill.name}">
+      </div>`;
+      container.insertAdjacentHTML('beforeend', iconHTML);
+    });
+    
+    // Reinitialize tooltips after dynamic content insertion
+    if (window.$ && window.$.fn.tooltip) {
+      $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+    }
+    
+    // Refresh AOS animations
+    if (window.AOS) {
+      AOS.refresh();
+    }
+    
+    console.log(`✓ ${this.data.skillIcons.length} skill icons rendered`);
+  },
+
+  // Render summary skills in the About Me section
+  initSummarySKills() {
+    console.log('initSummarySKills called');
+    
+    if (!this.data || !this.data.skills) {
+      console.warn('No skills data available');
+      return;
+    }
+    
+    const container = document.getElementById('summary-skills-container');
+    if (!container) {
+      console.warn('Summary skills container not found');
+      return;
+    }
+    
+    container.innerHTML = '';
+    
+    this.data.skills.forEach(skill => {
+      const chipHTML = `<div class="chip chip-border-primary">${skill.category}</div>`;
+      container.insertAdjacentHTML('beforeend', chipHTML);
+    });
+    
+    console.log(`✓ ${this.data.skills.length} summary skill chips rendered`);
+  },
+
   initSkills() {
     if (!this.data || !this.data.skills) return;
     
@@ -223,48 +289,52 @@ const app = {
     }
   },
 
-  // Render social links from data.json
+  // Render social links from data.js
   initSocialLinks() {
-    if (!this.data || !this.data.social) return;
+    console.log('initSocialLinks called. Data available:', !!this.data);
     
-    const socialIcons = document.querySelector('.social-icons');
-    if (!socialIcons) return;
+    if (!this.data || !this.data.social) {
+      console.warn('No social data in data');
+      return;
+    }
+    
+    const socialIcons = document.querySelector('#social-icons-container');
+    if (!socialIcons) {
+      console.warn('No #social-icons-container found in DOM');
+      return;
+    }
 
-    // Clear existing social links (keep Font Awesome icons placeholder)
-    const existingLinks = socialIcons.querySelectorAll('a');
+    console.log(`Rendering ${this.data.social.length} social links`);
     
-    // Create links from data.json
+    // Clear existing links
+    socialIcons.innerHTML = '';
+    
+    // Create links from data.js
     this.data.social.forEach(social => {
-      // Check if link already exists
-      let link = Array.from(existingLinks).find(a => a.title === social.name);
+      const link = document.createElement('a');
+      link.className = 'social-link';
+      link.setAttribute('data-placement', 'top');
+      link.setAttribute('data-toggle', 'tooltip');
+      link.title = social.name;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
       
-      if (!link) {
-        link = document.createElement('a');
-        link.className = 'social-link';
-        link.setAttribute('data-placement', 'top');
-        link.setAttribute('data-toggle', 'tooltip');
-        link.title = social.name;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        socialIcons.appendChild(link);
-      }
-
-      // Update link
-      if (social.type === 'link') {
-        link.href = social.url;
-      } else if (social.type === 'action') {
-        if (social.url.startsWith('mailto:')) {
-          link.href = social.url;
-        } else if (social.url.startsWith('tel:')) {
-          link.href = social.url;
-        } else {
-          link.href = social.url;
-        }
-      }
-
-      // Update icon
+      // Set href based on type
+      link.href = social.url;
+      
+      // Set icon
       link.innerHTML = `<i class="${social.icon}"></i>`;
+      
+      socialIcons.appendChild(link);
     });
+
+    console.log('✓ Social links rendered');
+    
+    // Reinitialize tooltips for new elements
+    if (typeof $ !== 'undefined') {
+      $('[data-toggle="tooltip"]').tooltip();
+      console.log('✓ Tooltips reinitialized');
+    }
   }
 };
 
