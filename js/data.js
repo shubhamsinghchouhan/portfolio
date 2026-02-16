@@ -86,12 +86,12 @@ window.portfolioData = {
       "description": "This project is a leading automated recruiting solution that helps you engage, nurture and hire talents faster.",
       "responsibilities": [
         "Implemented Oracle, DocuSign and Workday integrations that reduced time-to-sign by ~25% and onboarding TAT by ~20%.",
-        "Added CloudWatch logging and Slack alerts, shrinking incident detection time by~40% and reducing repeat outages by ~30%",
+        "Added CloudWatch logging and Slack alerts, shrinking incident detection time by ~40% and reducing repeat outages by ~30%",
         "Improved p95 endpoint latency by ~35% through caching and query optimization",
         "Improved application performance and reliability"
       ],
       "role": "Senior Software developer",
-      "stack": ["Backend - Ruby on Rails", "Database - MySQL and PostgreSQL", "Frontend - HTML, CSS, JS, ReactJS"]
+      "stack": ["Backend - Python", "Database - MySQL and PostgreSQL", "Frontend - HTML, CSS, JS, ReactJS"]
     },
     {
       "id": 5,
@@ -103,7 +103,7 @@ window.portfolioData = {
         "Optimized backend performance (p95 API latency down ~30%); expanded test coverage from ~50% to ~95%, reducing regressions by ~30%"
       ],
       "role": "Senior Software developer",
-      "stack": ["Backend - Ruby on Rails", "Database - MySQL and PostgreSQL", "Frontend - HTML, CSS, JS, ReactJS"]
+      "stack": ["Backend - Python", "Database - MySQL and PostgreSQL", "Frontend - HTML, CSS, JS, ReactJS"]
     },
     {
       "id": 4,
@@ -223,19 +223,6 @@ window.portfolioData = {
       "type": "action",
       "tooltip": "Call or WhatsApp me"
     },
-    // NOTE: Disabled social links below (uncomment to enable)
-    // {
-    //   "name": "Medium",
-    //   "icon": "fab fa-medium-m",
-    //   "url": "https://tingreavinash.medium.com/",
-    //   "type": "link"
-    // },
-    // {
-    //   "name": "Upwork",
-    //   "icon": "fab fa-upwork",
-    //   "url": "https://www.upwork.com/freelancers/~0157fd2936e552ee24",
-    //   "type": "link"
-    // },
     {
       "name": "Facebook",
       "icon": "fab fa-facebook-f",
