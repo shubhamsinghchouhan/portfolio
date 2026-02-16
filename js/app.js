@@ -508,7 +508,16 @@ const app = {
   // Helper - Initialize Bootstrap tooltips on all elements with data-toggle="tooltip"
   _initializeTooltips() {
     if (typeof $ !== 'undefined' && $.fn.tooltip) {
-      $('[data-toggle="tooltip"]').tooltip();
+      // Initialize all tooltips with hover trigger only
+      $('[data-toggle="tooltip"]').tooltip({
+        trigger: 'hover'
+      });
+      
+      // Hide any visible tooltips when clicking anywhere on the page
+      $(document).on('click', () => {
+        $('[data-toggle="tooltip"]').tooltip('hide');
+      });
+      
       console.log('✓ Tooltips initialized');
     }
   }
