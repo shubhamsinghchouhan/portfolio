@@ -93,6 +93,7 @@ const app = {
     this.initSkills();
     this.initTechStack();
     this.initSocialLinks();
+    this.loadExternalSection();
   },
 
   // Compute years and months of experience from data.portfolioStart or fallback
@@ -182,6 +183,35 @@ const app = {
         container.innerHTML = `<p class="text-danger">Error loading experience data: ${error.message}</p>`;
       }
       return false;
+    }
+  },
+
+  // Load external HTML sections
+  async loadExternalSection(sectionPath = 'sections/extra-activities.html', containerId = 'extra-activities-container') {
+    try {
+      const container = document.getElementById(containerId);
+      if (!container) {
+        console.warn(`Container with id "${containerId}" not found`);
+        return;
+      }
+
+      console.log(`Loading external section: ${sectionPath}`);
+      const response = await fetch(sectionPath);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const html = await response.text();
+      container.innerHTML = html;
+      
+      // Re-initialize AOS animations and tooltips for newly loaded content
+      this._refreshAOS();
+      this._initializeTooltips();
+      console.log(`✓ External section loaded successfully: ${sectionPath}`);
+    } catch (error) {
+      console.warn(`Could not load external section: ${error.message}`);
+      // Silently fail - this section is optional/commented out
     }
   },
 
