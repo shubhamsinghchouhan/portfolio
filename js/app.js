@@ -134,6 +134,27 @@ const app = {
 
       if (elYears) elYears.textContent = years;
       if (elMonths) elMonths.textContent = remMonths;
+
+      // Update meta tags dynamically with calculated experience
+      const updatedDescription = `IT Professional with ${years} years ${remMonths} months of experience in Web Application Development. Specialized in Python, Ruby on Rails, and full-stack web applications`;
+      
+      // Update standard meta description
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute('content', updatedDescription);
+      }
+      
+      // Update Open Graph description
+      const ogDescription = document.querySelector('meta[property="og:description"]');
+      if (ogDescription) {
+        ogDescription.setAttribute('content', updatedDescription);
+      }
+      
+      // Update Twitter description
+      const twitterDescription = document.querySelector('meta[name="twitter:description"]');
+      if (twitterDescription) {
+        twitterDescription.setAttribute('content', updatedDescription);
+      }
     } catch (e) {
       console.warn('Error computing experience duration', e);
     }
