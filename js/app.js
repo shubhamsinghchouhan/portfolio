@@ -5,12 +5,58 @@ const app = {
   // Initialize app
   async init() {
     await this.loadData();
+    this.computeAndRenderExperienceDuration();
     this.initExperience();
     this.initProjects();
     this.initSummarySKills();
     this.initSkillIcons();
     this.initSkills();
+    this.initTechStack();
     this.initSocialLinks();
+  },
+
+  // Compute years and months of experience from data.portfolioStart or fallback
+  computeAndRenderExperienceDuration() {
+    if (!this.data) return;
+
+    const elYears = document.getElementById('yearsExperience');
+    const elMonths = document.getElementById('monthsExperience');
+
+    try {
+      let startDate = null;
+
+      if (this.data.careerStart) {
+        startDate = new Date(this.data.careerStart);
+      }
+
+      // Fallback: try to parse earliest year from experience entries
+      if (!startDate && Array.isArray(this.data.experience) && this.data.experience.length) {
+        let earliestYear = Infinity;
+        this.data.experience.forEach(exp => {
+          if (!exp.duration) return;
+          const m = exp.duration.match(/(19|20)\d{2}/g);
+          if (m && m.length) {
+            const year = parseInt(m[0], 10);
+            if (year < earliestYear) earliestYear = year;
+          }
+        });
+        if (earliestYear !== Infinity) startDate = new Date(earliestYear, 0, 1);
+      }
+
+      // Final fallback to 2017-06-01
+      if (!startDate || isNaN(startDate.getTime())) startDate = new Date('2017-06-01');
+
+      const now = new Date();
+      let months = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
+      if (months < 0) months = 0;
+      const years = Math.floor(months / 12);
+      const remMonths = months % 12;
+
+      if (elYears) elYears.textContent = years;
+      if (elMonths) elMonths.textContent = remMonths;
+    } catch (e) {
+      console.warn('Error computing experience duration', e);
+    }
   },
 
   // Load data from window.portfolioData (loaded from data.js)
@@ -287,6 +333,52 @@ const app = {
         skillsContainer.insertAdjacentHTML('beforeend', chipHTML);
       });
     }
+  },
+
+  // Render tech stack table from data.js
+  initTechStack() {
+    console.log('initTechStack called');
+    
+    if (!this.data || !this.data.techStack) {
+      console.warn('No tech stack data available');
+      return;
+    }
+    
+    const container = document.getElementById('tech-stack-container');
+    if (!container) {
+      console.warn('No #tech-stack-container found in DOM');
+      return;
+    }
+
+    let tableHTML = '<table class="table table-hover"><tbody>';
+    
+    this.data.techStack.forEach(item => {
+      const chipsHTML = item.technologies
+        .map(tech => `<div class="chip chip-border-primary">${tech}</div>`)
+        .join('');
+      
+      const colspan = item.category.includes('Deployment') || item.category === 'Other' ? 'colspan="2"' : '';
+      
+      tableHTML += `
+        <tr data-aos="fade-right">
+          <th scope="row">${item.category}</th>
+          <td ${colspan}>
+            ${chipsHTML}
+          </td>
+        </tr>
+      `;
+    });
+    
+    tableHTML += '</tbody></table>';
+    container.innerHTML = tableHTML;
+    
+    // Refresh AOS animations
+    if (typeof AOS !== 'undefined') {
+      AOS.refresh();
+      console.log('✓ AOS refreshed for tech stack');
+    }
+    
+    console.log('✓ Tech stack table rendered');
   },
 
   // Render social links from data.js

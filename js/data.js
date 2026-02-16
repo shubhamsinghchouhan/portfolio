@@ -1,5 +1,7 @@
 // Portfolio Data
 window.portfolioData = {
+  // ISO date when career started (used to compute years/months of experience)
+  "careerStart": "2017-06-01",
   "experience": [
     {
       "id": 6,
@@ -68,7 +70,7 @@ window.portfolioData = {
     {
       "id": 7,
       "title": "Food ordering and table booking platform",
-      "duration": "Jun 2023 to May 2025",
+      "duration": "Jun 2023 to June 2025",
       "description": "This project is a leading food ordering and table booking platform that helps their users to order food online and book tables at their favorite restaurants.",
       "responsibilities": [
         "Integrated multiple Point of Sale (POS) systems Toast, Lightspeed, Yelp, TripAdvisor, Tock, Nash, and delivery platforms, enhancing user experience and accelerated partner onboarding by ~20%.",
@@ -80,7 +82,7 @@ window.portfolioData = {
     {
       "id": 6,
       "title": "Recruitment based application",
-      "duration": "Jun 2022 to Present",
+      "duration": "May 2022 - Feb 2023",
       "description": "This project is a leading automated recruiting solution that helps you engage, nurture and hire talents faster.",
       "responsibilities": [
         "Implemented Oracle, DocuSign and Workday integrations that reduced time-to-sign by ~25% and onboarding TAT by ~20%.",
@@ -242,6 +244,8 @@ window.portfolioData = {
     }
   ],
   "skillIcons": [
+    {"name": "Python", "icon": "img/icons/python.svg"},
+    {"name": "FastAPI", "icon": "img/icons/fastapi.svg"},
     {"name": "Ruby", "icon": "img/icons/ruby.svg"},
     {"name": "Ruby on Rails", "icon": "img/icons/ror.svg"},
     {"name": "MySQL", "icon": "img/icons/mysql.svg"},
@@ -254,10 +258,48 @@ window.portfolioData = {
     {"name": "Backbone JS", "icon": "img/icons/backbonejs.svg"},
     {"name": "Git", "icon": "img/icons/git.svg"},
     {"name": "AWS EC2", "icon": "img/icons/aws-ec2.svg"},
-    {"name": "Heroku", "icon": "img/icons/heroku.svg"},
-    {"name": "Sublime Text", "icon": "img/icons/sublime.svg"},
     {"name": "Visual Studio Code", "icon": "img/icons/vscode.svg"},
+    {"name": "Sublime Text", "icon": "img/icons/sublime.svg"},
     {"name": "Postman", "icon": "img/icons/postman.svg"},
-    {"name": "Linux", "icon": "img/icons/linux.svg"}
+    {"name": "Linux", "icon": "img/icons/linux.svg"},
+        // {"name": "Heroku", "icon": "img/icons/heroku.svg"},
+  ],
+  "techStack": [
+    {
+      "category": "Core skills",
+      "technologies": ["Web Development", "Data Structures", "Algorithms", "Problem Solving", "Design Patterns", "DevOps & Cloud"]
+    },
+    {
+      "category": "Language & Frameworks",
+      "technologies": ["Python", "FastAPI", "Ruby", "Ruby on Rails"]
+    },
+    {
+      "category": "Testing Frameworks",
+      "technologies": ["Pytest", "RSpec"]
+    },
+    {
+      "category": "Web Technologies",
+      "technologies": ["HTML", "CSS", "JavaScript", "jQuery", "VueJS", "BackboneJS"]
+    },
+    {
+      "category": "Database",
+      "technologies": ["MySQL", "PostgreSQL"]
+    },
+    {
+      "category": "Cloud & DevOps",
+      "technologies": ["AWS", "Git", "Jira", "Docker", "Kubernetes", "CI/CD"]
+    },
+    {
+      "category": "API",
+      "technologies": ["REST", "SOAP"]
+    },
+    {
+      "category": "IDE",
+      "technologies": ["Sublime Text", "VSCode"]
+    },
+    {
+      "category": "Other",
+      "technologies": ["Postman", "SoapUI", "Linux OS"]
+    }
   ]
 };
