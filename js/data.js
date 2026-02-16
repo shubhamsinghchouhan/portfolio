@@ -1,7 +1,7 @@
 // Portfolio Data
 window.portfolioData = {
   // ISO date when career started (used to compute years/months of experience)
-  "careerStart": "2017-06-01",
+  "careerStart": "2017-05-01",
   "experience": [
     {
       "id": 6,
