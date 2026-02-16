@@ -1,14 +1,94 @@
 // Portfolio App - Loads dynamic content from data.json
+
+// Theme Manager - Handle dark/light mode toggle
+const themeManager = {
+  STORAGE_KEY: 'portfolio-theme',
+  LIGHT_THEME: 'light',
+  DARK_THEME: 'dark',
+
+  // Initialize theme on page load
+  init() {
+    this.loadThemePreference();
+    this.attachToggleListener();
+  },
+
+  // Load saved theme preference from localStorage or system preference
+  loadThemePreference() {
+    // Check localStorage first
+    const savedTheme = localStorage.getItem(this.STORAGE_KEY);
+    if (savedTheme) {
+      this.setTheme(savedTheme);
+      return;
+    }
+
+    // Fall back to system preference
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      this.setTheme(this.DARK_THEME);
+    } else {
+      this.setTheme(this.LIGHT_THEME);
+    }
+  },
+
+  // Set theme and update DOM
+  setTheme(theme) {
+    const validTheme = theme === this.DARK_THEME ? this.DARK_THEME : this.LIGHT_THEME;
+    document.documentElement.setAttribute('data-theme', validTheme === this.DARK_THEME ? 'dark' : 'light');
+    localStorage.setItem(this.STORAGE_KEY, validTheme);
+    this.updateToggleIcon(validTheme);
+    console.log(`✓ Theme switched to: ${validTheme}`);
+  },
+
+  // Toggle between light and dark theme
+  toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const newTheme = current === 'dark' ? this.LIGHT_THEME : this.DARK_THEME;
+    this.setTheme(newTheme);
+  },
+
+  // Update toggle button icon based on current theme
+  updateToggleIcon(theme) {
+    const btn = document.getElementById('theme-toggle-btn');
+    if (!btn) return;
+
+    const icon = btn.querySelector('i');
+    if (!icon) return;
+
+    if (theme === this.DARK_THEME) {
+      icon.classList.remove('fa-moon');
+      icon.classList.add('fa-sun');
+      btn.title = 'Switch to light mode';
+      btn.setAttribute('aria-label', 'Switch to light mode');
+    } else {
+      icon.classList.remove('fa-sun');
+      icon.classList.add('fa-moon');
+      btn.title = 'Switch to dark mode';
+      btn.setAttribute('aria-label', 'Switch to dark mode');
+    }
+  },
+
+  // Attach click listener to toggle button
+  attachToggleListener() {
+    const btn = document.getElementById('theme-toggle-btn');
+    if (btn) {
+      btn.addEventListener('click', () => this.toggleTheme());
+      console.log('✓ Theme toggle button initialized');
+    }
+  }
+};
+
 const app = {
   data: null,
 
-  // Initialize app
+  // Initialize app - render all dynamic content
   async init() {
+    // Initialize theme first
+    themeManager.init();
+
     await this.loadData();
     this.computeAndRenderExperienceDuration();
     this.initExperience();
     this.initProjects();
-    this.initSummarySKills();
+    this.initSummarySkills();
     this.initSkillIcons();
     this.initSkills();
     this.initTechStack();
@@ -116,12 +196,12 @@ const app = {
       const itemHTML = `
         <div class="resume-item d-flex flex-column flex-md-row mb-5" data-aos="fade-up">
           <div class="resume-content mr-auto">
-            <img src="${exp.logo}" alt="${exp.company}" style="max-width: 8rem; margin-bottom:0.5rem; object-fit: cover; max-height: 44px;">
-            <h3 class="mb-0">${exp.position}</h3>
+            <img src="${exp.logo}" alt="${exp.company}" style="max-width: 8rem; margin-bottom:0.5rem; object-fit: cover; max-height: 44px;" data-toggle="tooltip" title="${exp.company}">
+            <h3 class="mb-0" data-toggle="tooltip" title="${exp.position} at ${exp.company}">${exp.position}</h3>
             <p class="lead">${exp.description}</p>
           </div>
           <div class="resume-date text-md-right" data-aos="fade-up">
-            <span class="resume-date-box text-primary">${exp.duration}</span>
+            <span class="resume-date-box text-primary" data-toggle="tooltip" title="${exp.duration}">${exp.duration}</span>
           </div>
         </div>
         ${index < this.data.experience.length - 1 ? '<hr>' : ''}
@@ -198,7 +278,7 @@ const app = {
       .join('');
 
     const stackHTML = project.stack
-      .map(tech => `<span class="chip chip-border-primary">${tech}</span>`)
+      .map(tech => `<span class="chip chip-border-primary" data-toggle="tooltip" title="Used ${tech} in this project">${tech}</span>`)
       .join('');
 
     return `
@@ -206,7 +286,7 @@ const app = {
         <div class="card-header bg-light">
           <div class="row align-items-center">
             <div class="col-6">
-              <h4 class="card-title mb-0">#${project.id}: ${project.title}</h4>
+              <h4 class="card-title mb-0" data-toggle="tooltip" title="Project: ${project.title}">#${project.id}: ${project.title}</h4>
             </div>
             <div class="col-6" style="text-align: end;">
               <div class="resume-date text-md-right">
@@ -227,7 +307,7 @@ const app = {
         <div class="card-footer bg-transparent">
           <div class="project-tech-stack">
             <span class="badge badge-light">Role:</span>
-            <span class="chip chip-border-primary">${project.role}</span>
+            <span class="chip chip-border-primary" data-toggle="tooltip" title="My role: ${project.role}">${project.role}</span>
           </div>
           <div class="project-tech-stack">
             <span class="badge badge-light">Stack:</span>
@@ -263,24 +343,15 @@ const app = {
       container.insertAdjacentHTML('beforeend', iconHTML);
     });
     
-    // Reinitialize tooltips after dynamic content insertion
-    if (window.$ && window.$.fn.tooltip) {
-      $(document).ready(function() {
-        $('[data-toggle="tooltip"]').tooltip();
-      });
-    }
-    
-    // Refresh AOS animations
-    if (window.AOS) {
-      AOS.refresh();
-    }
+    // Use centralized UI initialization for tooltips and AOS
+    this._initializeUI();
     
     console.log(`✓ ${this.data.skillIcons.length} skill icons rendered`);
   },
 
-  // Render summary skills in the About Me section
-  initSummarySKills() {
-    console.log('initSummarySKills called');
+  // Render summary/core skills in the About Me section
+  initSummarySkills() {
+    console.log('initSummarySkills called');
     
     if (!this.data || !this.data.skills) {
       console.warn('No skills data available');
@@ -296,7 +367,7 @@ const app = {
     container.innerHTML = '';
     
     this.data.skills.forEach(skill => {
-      const chipHTML = `<div class="chip chip-border-primary">${skill.category}</div>`;
+      const chipHTML = `<div class="chip chip-border-primary" data-toggle="tooltip" title="Proficiency: ${skill.level}. Category: ${skill.category}">${skill.category}</div>`;
       container.insertAdjacentHTML('beforeend', chipHTML);
     });
     
@@ -354,14 +425,14 @@ const app = {
     
     this.data.techStack.forEach(item => {
       const chipsHTML = item.technologies
-        .map(tech => `<div class="chip chip-border-primary">${tech}</div>`)
+        .map(tech => `<div class="chip chip-border-primary" data-toggle="tooltip" title="Proficient in ${tech}">${tech}</div>`)
         .join('');
       
       const colspan = item.category.includes('Deployment') || item.category === 'Other' ? 'colspan="2"' : '';
       
       tableHTML += `
         <tr data-aos="fade-right">
-          <th scope="row">${item.category}</th>
+          <th scope="row" data-toggle="tooltip" title="Category: ${item.category}">${item.category}</th>
           <td ${colspan}>
             ${chipsHTML}
           </td>
@@ -372,11 +443,8 @@ const app = {
     tableHTML += '</tbody></table>';
     container.innerHTML = tableHTML;
     
-    // Refresh AOS animations
-    if (typeof AOS !== 'undefined') {
-      AOS.refresh();
-      console.log('✓ AOS refreshed for tech stack');
-    }
+    // Use centralized UI initialization for AOS refresh
+    this._refreshAOS();
     
     console.log('✓ Tech stack table rendered');
   },
@@ -407,7 +475,7 @@ const app = {
       link.className = 'social-link';
       link.setAttribute('data-placement', 'top');
       link.setAttribute('data-toggle', 'tooltip');
-      link.title = social.name;
+      link.title = social.tooltip || social.name;
       link.target = '_blank';
       link.rel = 'noopener noreferrer';
       
@@ -421,11 +489,27 @@ const app = {
     });
 
     console.log('✓ Social links rendered');
-    
-    // Reinitialize tooltips for new elements
-    if (typeof $ !== 'undefined') {
+  },
+
+  // Centralized helper - Initialize all UI components (AOS animations & tooltips)
+  _initializeUI() {
+    this._refreshAOS();
+    this._initializeTooltips();
+  },
+
+  // Helper - Refresh AOS animations for dynamically added elements
+  _refreshAOS() {
+    if (typeof AOS !== 'undefined') {
+      AOS.refresh();
+      console.log('✓ AOS refreshed');
+    }
+  },
+
+  // Helper - Initialize Bootstrap tooltips on all elements with data-toggle="tooltip"
+  _initializeTooltips() {
+    if (typeof $ !== 'undefined' && $.fn.tooltip) {
       $('[data-toggle="tooltip"]').tooltip();
-      console.log('✓ Tooltips reinitialized');
+      console.log('✓ Tooltips initialized');
     }
   }
 };
@@ -434,12 +518,7 @@ const app = {
 document.addEventListener('DOMContentLoaded', () => {
   app.init();
 
-  // Reinitialize tooltips
-  if (typeof $ !== 'undefined') {
-    $('[data-toggle="tooltip"]').tooltip();
-  }
-
-  // Reinitialize AOS
+  // Initialize AOS animations on page load
   if (typeof AOS !== 'undefined') {
     AOS.init();
   }

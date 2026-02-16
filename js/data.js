@@ -192,32 +192,38 @@ window.portfolioData = {
       "name": "LinkedIn",
       "icon": "fab fa-linkedin-in",
       "url": "https://www.linkedin.com/in/shubhamsinghchouhan/",
-      "type": "link"
+      "type": "link",
+      "tooltip": "Connect with me on LinkedIn"
     },
     {
       "name": "GitHub",
       "icon": "fab fa-github",
       "url": "https://github.com/shubhamsinghchouhan",
-      "type": "link"
+      "type": "link",
+      "tooltip": "View my GitHub repositories and projects"
     },
     {
       "name": "HackerRank",
       "icon": "fas fa-heading",
       "url": "https://www.hackerrank.com/shubhamschouhan",
-      "type": "link"
+      "type": "link",
+      "tooltip": "Check my HackerRank profile and coding challenges"
     },
     {
       "name": "Email",
       "icon": "fas fa-paper-plane",
       "url": "mailto:shubhamsinghchouhan@live.com",
-      "type": "action"
+      "type": "action",
+      "tooltip": "Send me an email"
     },
     {
       "name": "Contact",
       "icon": "fa fa-mobile",
       "url": "tel:+919407119131",
-      "type": "action"
+      "type": "action",
+      "tooltip": "Call or WhatsApp me"
     },
+    // NOTE: Disabled social links below (uncomment to enable)
     // {
     //   "name": "Medium",
     //   "icon": "fab fa-medium-m",
@@ -225,7 +231,7 @@ window.portfolioData = {
     //   "type": "link"
     // },
     // {
-    //   "name": "upwork",
+    //   "name": "Upwork",
     //   "icon": "fab fa-upwork",
     //   "url": "https://www.upwork.com/freelancers/~0157fd2936e552ee24",
     //   "type": "link"
@@ -234,13 +240,15 @@ window.portfolioData = {
       "name": "Facebook",
       "icon": "fab fa-facebook-f",
       "url": "https://www.facebook.com/shubh1109",
-      "type": "link"
+      "type": "link",
+      "tooltip": "Follow me on Facebook"
     },
     {
       "name": "Instagram",
       "icon": "fab fa-instagram",
       "url": "https://www.instagram.com/shubhchouhan/",
-      "type": "link"
+      "type": "link",
+      "tooltip": "Follow me on Instagram"
     }
   ],
   "skillIcons": [
@@ -261,8 +269,9 @@ window.portfolioData = {
     {"name": "Visual Studio Code", "icon": "img/icons/vscode.svg"},
     {"name": "Sublime Text", "icon": "img/icons/sublime.svg"},
     {"name": "Postman", "icon": "img/icons/postman.svg"},
-    {"name": "Linux", "icon": "img/icons/linux.svg"},
-        // {"name": "Heroku", "icon": "img/icons/heroku.svg"},
+    {"name": "Linux", "icon": "img/icons/linux.svg"}
+    // NOTE: Disabled skill icons below (uncomment to enable)
+    // {"name": "Heroku", "icon": "img/icons/heroku.svg"}
   ],
   "techStack": [
     {
